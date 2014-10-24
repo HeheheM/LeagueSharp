@@ -19,11 +19,12 @@ namespace LightningRyze
         private static Obj_AI_Hero target;
         private static Obj_AI_Hero myHero;
         private static bool UseShield;
+       	
        	private static Spell Q;
-		private static Spell W;
-		private static Spell E;
-		private static Spell R;
-		private static SpellSlot IgniteSlot;
+	private static Spell W;
+	private static Spell E;
+	private static Spell R;
+	private static SpellSlot IgniteSlot;
 		
         private static void Main(string[] args)
         {
@@ -36,63 +37,63 @@ namespace LightningRyze
            	if (myHero.ChampionName != "Ryze") return;
            	
        		Q = new Spell(SpellSlot.Q, 625);
-			W = new Spell(SpellSlot.W, 600);
-			E = new Spell(SpellSlot.E, 600);
-			R = new Spell(SpellSlot.R);
-			IgniteSlot = myHero.GetSpellSlot("SummonerDot");  
+		W = new Spell(SpellSlot.W, 600);
+		E = new Spell(SpellSlot.E, 600);
+		R = new Spell(SpellSlot.R);
+		IgniteSlot = myHero.GetSpellSlot("SummonerDot");  
 			
-			Config = new Menu("Lightning Ryze", "Lightning Ryze", true);
+		Config = new Menu("Lightning Ryze", "Lightning Ryze Edit HeheheM", true);
 			var targetSelectorMenu = new Menu("Target Selector", "Target Selector");
 			SimpleTs.AddToMenu(targetSelectorMenu);
 			Config.AddSubMenu(targetSelectorMenu);
 			
-			Config.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
+		Config.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
 			Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
 			
-			Config.AddSubMenu(new Menu("Combo", "Combo"));
+		Config.AddSubMenu(new Menu("Combo", "Combo"));
 			Config.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 			Config.SubMenu("Combo").AddItem(new MenuItem("TypeCombo", "").SetValue(new StringList(new[] {"Mixed mode","Burst combo","Long combo"},0)));
 			Config.SubMenu("Combo").AddItem(new MenuItem("HQ", "Use Q").SetValue(true));
 			Config.SubMenu("Combo").AddItem(new MenuItem("HW", "Use W").SetValue(true));
                         Config.SubMenu("Combo").AddItem(new MenuItem("HE", "Use E").SetValue(true));		
 			Config.SubMenu("Combo").AddItem(new MenuItem("UseR", "Use R").SetValue(true));
-            Config.SubMenu("Combo").AddItem(new MenuItem("UseIgnite", "Use Ignite").SetValue(true));
+            		Config.SubMenu("Combo").AddItem(new MenuItem("UseIgnite", "Use Ignite").SetValue(true));
             
-            Config.AddSubMenu(new Menu("Harass", "Harass"));
-            Config.SubMenu("Harass").AddItem(new MenuItem("HarassActive", "Harass!").SetValue(new KeyBind("C".ToCharArray()[0], KeyBindType.Press)));
+            	Config.AddSubMenu(new Menu("Harass", "Harass"));
+        		Config.SubMenu("Harass").AddItem(new MenuItem("HarassActive", "Harass!").SetValue(new KeyBind("C".ToCharArray()[0], KeyBindType.Press)));
 			Config.SubMenu("Harass").AddItem(new MenuItem("HQ", "Use Q").SetValue(true));
 			Config.SubMenu("Harass").AddItem(new MenuItem("HW", "Use W").SetValue(true));
-            Config.SubMenu("Harass").AddItem(new MenuItem("HE", "Use E").SetValue(true));
+        		Config.SubMenu("Harass").AddItem(new MenuItem("HE", "Use E").SetValue(true));
             
-            Config.AddSubMenu(new Menu("Farm", "Farm"));
-            Config.SubMenu("Farm").AddItem(new MenuItem("FreezeActive", "Freeze!").SetValue(new KeyBind("X".ToCharArray()[0], KeyBindType.Press)));
-            Config.SubMenu("Farm").AddItem(new MenuItem("LaneClearActive", "LaneClear!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
+        	Config.AddSubMenu(new Menu("Farm", "Farm"));
+            		Config.SubMenu("Farm").AddItem(new MenuItem("FreezeActive", "Freeze!").SetValue(new KeyBind("X".ToCharArray()[0], KeyBindType.Press)));
+        		Config.SubMenu("Farm").AddItem(new MenuItem("LaneClearActive", "LaneClear!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
 			Config.SubMenu("Farm").AddItem(new MenuItem("FQ", "Use Q").SetValue(true));
 			Config.SubMenu("Farm").AddItem(new MenuItem("FW", "Use W").SetValue(true));
-            Config.SubMenu("Farm").AddItem(new MenuItem("FE", "Use E").SetValue(true));
+            		Config.SubMenu("Farm").AddItem(new MenuItem("FE", "Use E").SetValue(true));
             
-            Config.AddSubMenu(new Menu("JungleFarm", "JungleFarm"));
-            Config.SubMenu("JungleFarm").AddItem(new MenuItem("JungActive", "Farm!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
+        	Config.AddSubMenu(new Menu("JungleFarm", "JungleFarm"));
+        		Config.SubMenu("JungleFarm").AddItem(new MenuItem("JungActive", "Farm!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
 			Config.SubMenu("JungleFarm").AddItem(new MenuItem("JQ", "Use Q").SetValue(true));
 			Config.SubMenu("JungleFarm").AddItem(new MenuItem("JW", "Use W").SetValue(true));
-            Config.SubMenu("JungleFarm").AddItem(new MenuItem("JE", "Use E").SetValue(true));
+            		Config.SubMenu("JungleFarm").AddItem(new MenuItem("JE", "Use E").SetValue(true));
             
-            Config.AddSubMenu(new Menu("KillSteal", "KillSteal"));
-            Config.SubMenu("KillSteal").AddItem(new MenuItem("KillSteal", "Use Kill Steal").SetValue(true));
-            Config.SubMenu("KillSteal").AddItem(new MenuItem("AutoIgnite", "Use Ignite").SetValue(true));
+            	Config.AddSubMenu(new Menu("KillSteal", "KillSteal"));
+            		Config.SubMenu("KillSteal").AddItem(new MenuItem("KillSteal", "Use Kill Steal").SetValue(true));
+            		Config.SubMenu("KillSteal").AddItem(new MenuItem("AutoIgnite", "Use Ignite").SetValue(true));
             
-            Config.AddSubMenu(new Menu("Extra", "Extra"));
-            Config.SubMenu("Extra").AddItem(new MenuItem("UseSera", "Use Seraphs Embrace").SetValue(true));
-            Config.SubMenu("Extra").AddItem(new MenuItem("HP", "When % HP").SetValue(new Slider(20,100,0)));
-            Config.SubMenu("Extra").AddItem(new MenuItem("UseWGap", "Use W GapCloser").SetValue(true));
-            Config.SubMenu("Extra").AddItem(new MenuItem("UsePacket", "Use No Face Direction").SetValue(true));
+            	Config.AddSubMenu(new Menu("Extra", "Extra"));
+            		Config.SubMenu("Extra").AddItem(new MenuItem("UseSera", "Use Seraphs Embrace").SetValue(true));
+        		Config.SubMenu("Extra").AddItem(new MenuItem("HP", "When % HP").SetValue(new Slider(20,100,0)));
+            		Config.SubMenu("Extra").AddItem(new MenuItem("UseWGap", "Use W GapCloser").SetValue(true));
+            		Config.SubMenu("Extra").AddItem(new MenuItem("UsePacket", "Use No Face Direction").SetValue(true));
                       
-			Config.AddSubMenu(new Menu("Drawings", "Drawings"));
+		Config.AddSubMenu(new Menu("Drawings", "Drawings"));
 			Config.SubMenu("Drawings").AddItem(new MenuItem("QRange", "Q range").SetValue(new Circle(true, Color.FromArgb(255, 255, 255, 255))));
 			Config.SubMenu("Drawings").AddItem(new MenuItem("WERange", "W+E range").SetValue(new Circle(false, Color.FromArgb(255, 255, 255, 255))));
 			Config.AddToMainMenu();       
 			
-			Game.PrintChat("Lightning Ryze loaded!");
+		Game.PrintChat("Lightning Ryze loaded!");
 
 			Game.OnGameUpdate += Game_OnGameUpdate;
 			Orbwalking.BeforeAttack += OrbwalkingOnBeforeAttack;
