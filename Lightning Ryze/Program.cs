@@ -1,4 +1,4 @@
-﻿#region
+#region
 using System;
 using System.Collections.Generic;
 using Color = System.Drawing.Color;
@@ -6,7 +6,6 @@ using System.Linq;
 using SharpDX;
 using LeagueSharp;
 using LeagueSharp.Common;
-using LX_Orbwalker;
 #endregion
 
 namespace LightningRyze
@@ -47,9 +46,8 @@ namespace LightningRyze
 			SimpleTs.AddToMenu(targetSelectorMenu);
 			Config.AddSubMenu(targetSelectorMenu);
 			
-                        var orbwalkerMenu = new Menu("My Orbwalker", "my_Orbwalker");
-                        LXOrbwalker.AddToMenu(orbwalkerMenu);
-                        menu.AddSubMenu(orbwalkerMenu);
+			Config.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
+			Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
 			
 			Config.AddSubMenu(new Menu("Combo", "Combo"));
 			Config.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
@@ -97,8 +95,8 @@ namespace LightningRyze
 			Game.PrintChat("Lightning Ryze loaded!");
 
 			Game.OnGameUpdate += Game_OnGameUpdate;
+			Orbwalking.BeforeAttack += OrbwalkingOnBeforeAttack;
 			Drawing.OnDraw += Drawing_OnDraw;
-			LXOrbwalker.AfterAttack += Orbwalking_AfterAttack;
 			Obj_AI_Base.OnProcessSpellCast += Obj_AI_Hero_OnProcessSpellCast; 	
 			AntiGapcloser.OnEnemyGapcloser += AntiGapcloser_OnEnemyGapcloser;			
         }
@@ -134,7 +132,7 @@ namespace LightningRyze
             }
         }
         
-        public static void Orbwalking_AfterAttack(Obj_AI_Base unit, Obj_AI_Base target)
+        private static void OrbwalkingOnBeforeAttack(Orbwalking.BeforeAttackEventArgs args)
 		{
 			if (Config.Item("ComboActive").GetValue<KeyBind>().Active || Config.Item("HarassActive").GetValue<KeyBind>().Active)
 				args.Process = !(Q.IsReady() || W.IsReady() || E.IsReady() || myHero.Distance(args.Target) >= 600);
