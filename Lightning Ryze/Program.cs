@@ -66,12 +66,18 @@ namespace LightningRyze
         		Config.SubMenu("Harass").AddItem(new MenuItem("HE", "Use E").SetValue(true));
             
         	Config.AddSubMenu(new Menu("Farm", "Farm"));
-            		Config.SubMenu("Farm").AddItem(new MenuItem("FreezeActive", "Freeze!").SetValue(new KeyBind("X".ToCharArray()[0], KeyBindType.Press)));
         		Config.SubMenu("Farm").AddItem(new MenuItem("LaneClearActive", "LaneClear!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
 			Config.SubMenu("Farm").AddItem(new MenuItem("FQ", "Use Q").SetValue(true));
 			Config.SubMenu("Farm").AddItem(new MenuItem("FW", "Use W").SetValue(true));
             		Config.SubMenu("Farm").AddItem(new MenuItem("FE", "Use E").SetValue(true));
-            
+            		
+            	Config.AddSubMenu(new Menu("Freeze", "Freeze"));
+            	        Config.SubMenu("Freeze").AddItem(new MenuItem("FreezeActive", "Freeze!").SetValue(new KeyBind("X".ToCharArray()[0], KeyBindType.Press)));
+            		Config.SubMenu("Freeze").AddItem(new MenuItem("FQ", "Use Q").SetValue(true));
+            		Config.SubMenu("Freeze").AddItem(new MenuItem("FW", "Use W").SetValue(false));
+            		Config.SubMenu("Freeze").AddItem(new MenuItem("FE", "Use E").SetValue(false));
+            	
+            	        
         	Config.AddSubMenu(new Menu("JungleFarm", "JungleFarm"));
         		Config.SubMenu("JungleFarm").AddItem(new MenuItem("JungActive", "Farm!").SetValue(new KeyBind("V".ToCharArray()[0], KeyBindType.Press)));
 			Config.SubMenu("JungleFarm").AddItem(new MenuItem("JQ", "Use Q").SetValue(true));
