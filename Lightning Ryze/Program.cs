@@ -116,7 +116,7 @@ namespace LightningRyze
 			}
 			if (Config.Item("HarassActive").GetValue<KeyBind>().Active) Harass();
 			if (Config.Item("LaneClearActive").GetValue<KeyBind>().Active ||
-			    Config.Item("FreezeActive").GetValue<KeyBind>().Active) Farm();
+			if (Config.Item("FreezeActive").GetValue<KeyBind>().Active) Freeze();
 			if (Config.Item("JungActive").GetValue<KeyBind>().Active) JungleFarm();
 			if (Config.Item("UseSera").GetValue<bool>()) UseItems();
         }
@@ -415,7 +415,6 @@ namespace LightningRyze
         	var UseE = Config.Item("FE").GetValue<bool>();
         	var UsePacket = Config.Item("UsePacket").GetValue<bool>();
         	var allMinions = MinionManager.GetMinions(myHero.ServerPosition, Q.Range,MinionTypes.All,MinionTeam.All, MinionOrderTypes.MaxHealth);
-        	if (Config.Item("FreezeActive").GetValue<KeyBind>().Active)
         	{
         		if (UseQ && Q.IsReady())
 				{
@@ -453,6 +452,16 @@ namespace LightningRyze
 					}
 				}
         	}
+        	else if (Config.Item("LaneClearActive").GetValue<KeyBind>().Active)
+        	{
+        		foreach (var minion in allMinions)
+				{
+        			if (UseQ && Q.IsReady()) Q.CastOnUnit(minion,UsePacket);			
+				if (UseW && W.IsReady()) W.CastOnUnit(minion,UsePacket);		
+				if (UseE && E.IsReady()) E.CastOnUnit(minion,UsePacket);					
+				}
+        	}
+        }
               
               private static void Freeze()
         {
@@ -497,6 +506,16 @@ namespace LightningRyze
 							return;
 						}
 					}
+				}
+        	}
+        }
+                	else if (Config.Item("FreezeActive").GetValue<KeyBind>().Active)
+        	{
+        		foreach (var minion in allMinions)
+				{
+        			if (UseQ && Q.IsReady()) Q.CastOnUnit(minion,UsePacket);			
+				if (UseW && W.IsReady()) W.CastOnUnit(minion,UsePacket);		
+				if (UseE && E.IsReady()) E.CastOnUnit(minion,UsePacket);					
 				}
         	}
         }
