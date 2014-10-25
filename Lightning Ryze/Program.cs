@@ -93,7 +93,7 @@ namespace LightningRyze
 			Config.SubMenu("Drawings").AddItem(new MenuItem("WERange", "W+E range").SetValue(new Circle(false, Color.FromArgb(255, 255, 255, 255))));
 			Config.AddToMainMenu();       
 			
-		Game.PrintChat("<font color='#FE9A2E'>Lightning Ryze loaded! - </font><font color='#FF0000'>Loaded</font>");
+		Game.PrintChat("<font color='#FE9A2E'>Lightning Ryze - Edit By </font><font color='#DF01D7'>HeheheM!</font><font color='#FE9A2E'> - </font><font color='#FF0000'>Loaded!</font>");
 
 			Game.OnGameUpdate += Game_OnGameUpdate;
 			Orbwalking.BeforeAttack += OrbwalkingOnBeforeAttack;
