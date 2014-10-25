@@ -53,9 +53,6 @@ namespace LightningRyze
 		Config.AddSubMenu(new Menu("Combo", "Combo"));
 			Config.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 			Config.SubMenu("Combo").AddItem(new MenuItem("TypeCombo", "").SetValue(new StringList(new[] {"Mixed mode","Burst combo","Long combo"},0)));
-			Config.SubMenu("Combo").AddItem(new MenuItem("HQ", "Use Q").SetValue(true));
-			Config.SubMenu("Combo").AddItem(new MenuItem("HW", "Use W").SetValue(true));
-                        Config.SubMenu("Combo").AddItem(new MenuItem("HE", "Use E").SetValue(true));		
 			Config.SubMenu("Combo").AddItem(new MenuItem("UseR", "Use R").SetValue(true));
             		Config.SubMenu("Combo").AddItem(new MenuItem("UseIgnite", "Use Ignite").SetValue(true));
             
@@ -73,9 +70,9 @@ namespace LightningRyze
             		
             	Config.AddSubMenu(new Menu("Freeze", "Freeze"));
             	        Config.SubMenu("Freeze").AddItem(new MenuItem("FreezeActive", "Freeze!").SetValue(new KeyBind("X".ToCharArray()[0], KeyBindType.Press)));
-            		Config.SubMenu("Freeze").AddItem(new MenuItem("FQ", "Use Q").SetValue(true));
-            		Config.SubMenu("Freeze").AddItem(new MenuItem("FW", "Use W").SetValue(false));
-            		Config.SubMenu("Freeze").AddItem(new MenuItem("FE", "Use E").SetValue(false));
+            		Config.SubMenu("Freeze").AddItem(new MenuItem("FRQ", "Use Q").SetValue(true));
+            		Config.SubMenu("Freeze").AddItem(new MenuItem("FRW", "Use W").SetValue(false));
+            		Config.SubMenu("Freeze").AddItem(new MenuItem("FRE", "Use E").SetValue(false));
             	
             	        
         	Config.AddSubMenu(new Menu("JungleFarm", "JungleFarm"));
@@ -456,13 +453,50 @@ namespace LightningRyze
 					}
 				}
         	}
-        	else if (Config.Item("LaneClearActive").GetValue<KeyBind>().Active)
-        	{
-        		foreach (var minion in allMinions)
+              
+              private static void Freeze()
+        {
+        	var UseQ = Config.Item("FRQ").GetValue<bool>();
+        	var UseW = Config.Item("FRW").GetValue<bool>();
+        	var UseE = Config.Item("FRE").GetValue<bool>();
+        	var UsePacket = Config.Item("UsePacket").GetValue<bool>();
+        	var allMinions = MinionManager.GetMinions(myHero.ServerPosition, Q.Range,MinionTypes.All,MinionTeam.All, MinionOrderTypes.MaxHealth);
+                {
+                	        	{
+        		if (UseQ && Q.IsReady())
 				{
-        			if (UseQ && Q.IsReady()) Q.CastOnUnit(minion,UsePacket);			
-					if (UseW && W.IsReady()) W.CastOnUnit(minion,UsePacket);		
-					if (UseE && E.IsReady()) E.CastOnUnit(minion,UsePacket);					
+        			foreach (var minion in allMinions)
+					{
+						if (minion.IsValidTarget() && HealthPrediction.GetHealthPrediction(minion,(int)(myHero.Distance(minion) * 1000 / 1400)) <=
+        				    Damage.GetComboDamage(myHero,minion,new[] {SpellSlot.Q}))
+						{
+							Q.CastOnUnit(minion,UsePacket);
+							return;
+						}
+					}
+				}
+        		else if (UseW && W.IsReady())
+				{
+					foreach (var minion in allMinions)
+					{
+						if (minion.IsValidTarget(W.Range) && minion.Health < Damage.GetComboDamage(myHero,minion,new[] {SpellSlot.W}))
+						{
+							W.CastOnUnit(minion,UsePacket);
+							return;
+						}
+					}
+				}
+				else if (UseE && E.IsReady())
+				{
+					foreach (var minion in allMinions)
+					{
+						if (minion.IsValidTarget(E.Range) && HealthPrediction.GetHealthPrediction(minion,(int)(myHero.Distance(minion) * 1000 / 1000)) <=
+																	Damage.GetComboDamage(myHero,minion,new[] {SpellSlot.E}))
+						{
+							E.CastOnUnit(minion,UsePacket);
+							return;
+						}
+					}
 				}
         	}
         }
