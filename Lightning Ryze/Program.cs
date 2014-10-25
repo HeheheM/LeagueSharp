@@ -50,7 +50,7 @@ namespace LightningRyze
 		Config.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
 			Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
 			
-		Config.AddSubMenu(new Menu("Combo", "Combo"));
+		Config.AddSubMenu(new Menu("Combo", "<font color='#00FF00'>C</font><font color='FF0000'>o</font><font color='00FF00'>m</font><font color='FF0000'>b</font><font color='00FF00'>o</font>"));
 			Config.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 			Config.SubMenu("Combo").AddItem(new MenuItem("TypeCombo", "").SetValue(new StringList(new[] {"Mixed mode","Burst combo","Long combo"},0)));
 			Config.SubMenu("Combo").AddItem(new MenuItem("HQ", "Use Q").SetValue(true));
