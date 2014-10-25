@@ -53,9 +53,6 @@ namespace LightningRyze
 		Config.AddSubMenu(new Menu("Combo", "Combo"));
 			Config.SubMenu("Combo").AddItem(new MenuItem("ComboActive", "Combo!").SetValue(new KeyBind(32, KeyBindType.Press)));
 			Config.SubMenu("Combo").AddItem(new MenuItem("TypeCombo", "").SetValue(new StringList(new[] {"Mixed mode","Burst combo","Long combo"},0)));
-			Config.SubMenu("Combo").AddItem(new MenuItem("HQ", "Use Q").SetValue(true));
-			Config.SubMenu("Combo").AddItem(new MenuItem("HW", "Use W").SetValue(true));
-                        Config.SubMenu("Combo").AddItem(new MenuItem("HE", "Use E").SetValue(true));		
 			Config.SubMenu("Combo").AddItem(new MenuItem("UseR", "Use R").SetValue(true));
             		Config.SubMenu("Combo").AddItem(new MenuItem("UseIgnite", "Use Ignite").SetValue(true));
             
